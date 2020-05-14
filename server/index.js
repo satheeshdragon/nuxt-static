@@ -28,23 +28,23 @@ async function start () {
   app.use(cors());
   app.use(express.json());
 
-  const uri = 'mongodb+srv://sd:satheeshmongodb@sdcluster-6h2mn.mongodb.net/sample_training?retryWrites=true&w=majority';
-  mongoose.connect(uri,{ useNewUrlParser: true,useCreateIndex: true});
-  const connection = mongoose.connection;
-  connection.once('open', () => {
-    console.log("SD MONGODB connection establish Successfully");
-  })
+//   const uri = 'mongodb+srv://sd:satheeshmongodb@sdcluster-6h2mn.mongodb.net/sample_training?retryWrites=true&w=majority';
+//   mongoose.connect(uri,{ useNewUrlParser: true,useCreateIndex: true});
+//   const connection = mongoose.connection;
+//   connection.once('open', () => {
+//     console.log("SD MONGODB connection establish Successfully");
+//   })
 
 
-const exercisesRouter = require('./routes/exercise');
-const usersRouter     = require('./routes/users');
-const zipsRouter     = require('./routes/zips');
-const storiesRouter     = require('./routes/stories');
+// const exercisesRouter = require('./routes/exercise');
+// const usersRouter     = require('./routes/users');
+// const zipsRouter     = require('./routes/zips');
+// const storiesRouter     = require('./routes/stories');
 
-app.use('/exercises',exercisesRouter);
-app.use('/users',usersRouter);
-app.use('/zips',zipsRouter);
-app.use('/stories',storiesRouter);
+// app.use('/exercises',exercisesRouter);
+// app.use('/users',usersRouter);
+// app.use('/zips',zipsRouter);
+// app.use('/stories',storiesRouter);
 
 
   // Listen the server
