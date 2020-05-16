@@ -22,7 +22,59 @@
         <div class="col-md-12">
           <h1>API DATA</h1>
           <br>
-           ==> {{ project }}
+           ==> {{ ip }}
+           <br>
+           ==> {{ data }}
+           <br>
+           ==> {{ my_data }}
+           <br>
+
+             <span v-for="n in 10">
+            <li> {{ n }} </li>
+           </span>
+
+           <br>
+
+           <!-- <li v-for="my_data in tracks"> {{ my_data.employee_name }} </li> -->
+
+
+           <ol v-if="posts.length">
+            <li v-for="post in posts">
+              {{ post.username }}
+            </li>
+          </ol>
+
+          <ol v-if="employe_data.length">
+            <li v-for="value in employe_data">
+              {{ value.username }}
+            </li>
+          </ol>
+
+          ------AXIOS DATA-------
+
+          <ol v-if="axios_list_data.length">
+            <li v-for="value in axios_list_data">
+              {{ value.username }}
+            </li>
+          </ol>
+
+          ====================
+
+          <table>
+          <tr>
+            <th>Names</th>
+            <th>description</th>
+          </tr>
+          <tr v-for="value in axios_list_data">
+            <td>
+              {{ value.username }}
+            </td>
+            <td>
+              {{ value.description }}
+            </td>
+          </tr>
+        </table>
+
 
         
         </div>
@@ -39,29 +91,80 @@
 <script>
   export default {
 
-     // async asyncData (context) {
-     //    const {data} = context.$axios.$get('http://dummy.restapiexample.com/api/v1/employees');
-     //    console.log(data);
-     //    return {articles:data}
-     //  }
+    
 
-     data () {
-       return {
-          project: ''
+    // async asyncData ($axios) {
+    //        const ip_data = await $axios.$get('http://icanhazip.com')
+    //       return { ip: ip }
+    // }
+
+    // mydata(){
+    //   const ip = await $axios.$get('http://icanhazip.com')
+    //     return { ip }
+    // }
+
+     async asyncData({ $axios }) {
+        const ip_data = await $axios.$get('http://icanhazip.com');
+        let data = [];
+        let posts= [];
+        let employe_data = [];
+        let axios_list_data = [];
+
+        const employees_datas = await $axios.$get('https://sdnodeapi.herokuapp.com/exercises/')
+        // .then(data=>{return data.json()})
+        .then(res => {
+          // console.log(res.data);
+          axios_list_data = res;
+          // return res.data.employee_name
+        });
+        // console.log(employe_data);
+        return { 
+          ip : ip_data,
+          my_data : data,
+          posts : posts,
+          employe_data : employe_data,
+          axios_list_data : axios_list_data,
         }
       },
-      asyncData (context) {
-        const ip =  context.$axios.$get('http://icanhazip.com').then( function(res,context){ 
-          console.log(res);
-          // console.log(context);
-          // this.project = 'sat';
-          // return { project: res };
-        } );
-        // return { project: 'NEW' }
-      }
-      // async fetch () {
-      //   // this.project = await this.$http.$get('http://icanhazip.com')
-      //   this.project = ['satheesh']
-      // },
+      created() {
+        this.setPosts();
+      },
+      methods: {
+      setPosts() {
+        const url = 'https://sdnodeapi.herokuapp.com/exercises/';
+          fetch(url)
+          .then(data=>{return data.json()})
+          .then(res=>{
+            console.log(res);
+            this.posts = res
+          });
+
+
+          const urls = 'https://sdnodeapi.herokuapp.com/exercises/';
+          fetch(urls)
+          .then(data=>{return data.json()})
+          .then(res=>{
+            console.log(res);
+            this.employe_data = res
+          });
+
+
+        }
+      },
+
+      data ({ $axios }) {
+        const ip_data =  $axios.$get('http://icanhazip.com')
+        return { data : ip_data }
+            // return { data: 'default' }
+        }
+
+
+    // methods: {
+    //   async fetchSomething() {
+    //     const ip = await this.$axios.$get('http://icanhazip.com')
+    //     this.int_p = int_p
+    //   }
+    // }
+   
   }
 </script>
